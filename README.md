@@ -1,6 +1,9 @@
 # BooksLibrary-JS-Practice
 
 > In this project I built a simple app where you store books.
+
+![screenshot](./images/lib.png)
+
 ## Built With
 
 - HTML
@@ -9,7 +12,7 @@
 - Local storage
 
 ## Live Demo
-[Live Demo]()
+[Live Demo](https://kingobaino1.github.io/Online-library/.)
 
 ## Getting Started
 
