@@ -7,7 +7,6 @@ const add = document.querySelector('#add-book');
 const submit = document.querySelector('#submit');
 const close = document.querySelector('#close');
 const row = document.querySelector('.row');
-let warning;
 
 let myLibrary = [];
 
@@ -46,7 +45,7 @@ function changeStatus(e) {
 }
 
 function removeBook(e) {
-  warning = confirm('Are you sure you want to remove this book?');
+  const warning = window.confirm('Are you sure you want to remove this book?');
   if (warning) {
     const bookIndex = myLibrary.indexOf(e.target);
     myLibrary.splice(bookIndex, 1);
@@ -109,14 +108,14 @@ function loop() {
   row.innerHTML = '';
   myLibrary.forEach((book) => {
     card(book);
-  })
+  });
 }
 
 function populateData() {
   myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
   if (myLibrary === null) {
     myLibrary = [];
-  };
+  }
   loop();
 }
 
