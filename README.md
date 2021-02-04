@@ -32,7 +32,7 @@ Access the folder where you cloned the project in your explorer and open index.h
 
 - GitHub: [@githubhandle](https://github.com/Kingobaino1)
 - Twitter: [@twitterhandle](https://twitter.com/ibehkingso)
-- Linkedin: [linkedin] (https://www.linkedin.com/in/ibeh-kingsley-obinna-568596177)
+- Linkedin: [linkedin] (https://www.linkedin.com/in/kingsley-ibeh)
 
 ## 🤝 Contributing
 
