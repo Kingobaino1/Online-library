@@ -26,13 +26,18 @@ function populateData(){
   if(myLibrary === null){
     myLibrary = []
   }
-loop()
+  loop()
 }
 
 btn.addEventListener('click', addBook);
 
 submit.addEventListener('click', addBookToLibrary);
-close.addEventListener('click', hideForm);
+close.addEventListener('click', closeButton);
+
+function closeButton(){
+  hideForm();
+  resetForm();
+}
 
 function addBook(){
   add.className = 'd-block'
@@ -58,46 +63,55 @@ if(e.target.textContent == 'Mark as unread'){
 }
 
 function removeBook(e){
-  let bookIndex = myLibrary.indexOf(e.target);
-  myLibrary.splice(bookIndex, 1);
-  e.target.offsetParent.parentElement.parentElement.remove();
-  saveLocal()
+  let warning = confirm('Are you sure you want to remove this book?');
+  if(warning){
+    let bookIndex = myLibrary.indexOf(e.target);
+    myLibrary.splice(bookIndex, 1);
+    e.target.offsetParent.parentElement.parentElement.remove();
+    saveLocal()
+  }else {
+    saveLocal
+  }
+
 }
 
 function card(book){
   let div = document.createElement('div')
-  let ul = document.createElement('ul');
   div.className = 'card, bg-primary col-6 pb-3'
+
+  let ul = document.createElement('ul');
   ul.classList.add('list-group');
   ul.classList.add('list-group-flush');
   ul.classList.add('mt-4');
+
   let li1 = document.createElement('li');
-  let li2 = document.createElement('li');
-  let li3 = document.createElement('li');
-  let li4 = document.createElement('li');    
   li1.classList.add('list-group-item');
+  li1.textContent = book.title;
+
+  let li2 = document.createElement('li');
   li2.classList.add('list-group-item');
+  li2.textContent = `by ${book.author}`;
+
+  let li3 = document.createElement('li');
   li3.classList.add('list-group-item');
+  li3.textContent = `${book.page} pages`;
+
+  let li4 = document.createElement('li');    
   li4.classList.add('list-group-item');
   li4.classList.add('d-flex');
   li4.classList.add('justify-content-between');
-  li1.textContent = book.title;
-  li2.textContent = `by ${book.author}`;
-  li3.textContent = `${book.page} pages`;
- 
 
-   let btn2 = document.createElement('button');
-    btn2.setAttribute('type', 'button');
-    btn2.className = 'btn btn-danger';
-    btn2.textContent = 'Delete Book';
-    btn2.addEventListener('click', removeBook);
+  let btn1 = document.createElement('button');
+  btn1.setAttribute('type', 'button');
+  btn1.className = 'btn btn-success';
+  btn1.textContent = status(book);
+  btn1.addEventListener('click', changeStatus);
 
-    let btn1 = document.createElement('button');
-    btn1.setAttribute('type', 'button');
-    btn1.className = 'btn btn-success';
-    btn1.textContent = status(book);
-  
-    btn1.addEventListener('click', changeStatus);
+  let btn2 = document.createElement('button');
+  btn2.setAttribute('type', 'button');
+  btn2.className = 'btn btn-danger';
+  btn2.textContent = 'Remove Book';
+  btn2.addEventListener('click', removeBook);
 
   row.appendChild(div)
   div.appendChild(ul)
@@ -125,7 +139,7 @@ function resetForm(){
   title.value = ''
   author.value = ''
   page.value = ''
-  read.checked = false
+  read.checked = true
 }
 
 function addBookToLibrary(){

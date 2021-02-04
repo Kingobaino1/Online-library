@@ -10,7 +10,7 @@
 			crossorigin="anonymous"
 		/>
     <link rel="icon" href="images/favicon.jpg" type="image/png">
-    <title>Document</title>
+    <title>Online library</title>
   </head>
   <body class="bg-secondary">
     <div class="w-25 mx-auto">
@@ -18,18 +18,18 @@
       <form class="d-none mx-auto" id="add-book" >
         <div class="mb-3">
           <label for="title" class="form-label">Title*</label>
-          <input type="text" name="title" class="form-control" id="title" >
+          <input type="text" name="title" placeholder="Things fall apart" class="form-control" id="title" >
         </div>
         <div class="mb-3">
           <label for="author" class="form-label">Author*</label>
-          <input type="text" name="author" class="form-control" id="author">
+          <input type="text" name="author" placeholder="Chinua Achebe" class="form-control" id="author">
         </div>
         <div class="mb-3">
           <label for="page" class="form-label">Pages*</label>
-          <input type="number" name="page" class="form-control" id="page" >
+          <input type="number" min="1" placeholder="75" name="page" class="form-control" id="page" >
         </div>
         <div class="mb-3 form-check">
-          <input type="checkbox" name="read" class="form-check-input" id="read">
+          <input type="checkbox" name="read" class="form-check-input" id="read" checked>
           <label class="form-check-label" for="read">Have you read it? <span>&#128523</span></label>
         </div>
         <div class="d-flex justify-content-between">
