@@ -3,12 +3,18 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<link
+			rel="stylesheet"
+			href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+			integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc"
+			crossorigin="anonymous"
+		/>
     <link rel="icon" href="images/favicon.jpg" type="image/png">
     <title>Document</title>
   </head>
   <body class="bg-secondary">
     <div class="w-25 mx-auto">
-      <button id="btn" class="m-4 btn btn-primary">Add Book</button>
+      <div class="w-50 mx-auto"><button id="btn" class="m-4 btn btn-primary">Add Book</button></div>
       <form class="d-none mx-auto" id="add-book" >
         <div class="mb-3">
           <label for="title" class="form-label">Title*</label>
@@ -24,9 +30,12 @@
         </div>
         <div class="mb-3 form-check">
           <input type="checkbox" name="read" class="form-check-input" id="read">
-          <label class="form-check-label" for="read">Have you read it?</label>
+          <label class="form-check-label" for="read">Have you read it? <span>&#128523</span></label>
         </div>
-        <button type="button" class="btn btn-primary" id="submit">Submit</button>
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-primary" id="submit">Submit</button>
+          <button type="button" class="btn" id="close"><i class="far fa-times-circle text-white"></i></button>
+        </div> 
       </form>
     </div>
     <div class="row w-50 mx-auto pt-4">
