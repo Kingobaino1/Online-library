@@ -7,6 +7,7 @@ const add = document.querySelector('#add-book');
 const submit = document.querySelector('#submit');
 const close = document.querySelector('#close');
 const row = document.querySelector('.row');
+let warning;
 
 let myLibrary = [];
 
@@ -31,7 +32,7 @@ function status(book) {
   if (book.read) {
     return 'Mark as unread';
   }
-    return 'Mark as read';
+  return 'Mark as read';
 }
 
 function changeStatus(e) {
@@ -45,14 +46,14 @@ function changeStatus(e) {
 }
 
 function removeBook(e) {
-  const warning = confirm('Are you sure you want to remove this book?');
+  warning = confirm('Are you sure you want to remove this book?');
   if (warning) {
     const bookIndex = myLibrary.indexOf(e.target);
     myLibrary.splice(bookIndex, 1);
     e.target.offsetParent.parentElement.parentElement.remove();
     saveLocal();
   } else {
-    saveLocal;
+    saveLocal();
   }
 }
 
@@ -115,7 +116,7 @@ function populateData() {
   myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
   if (myLibrary === null) {
     myLibrary = [];
-  }
+  };
   loop();
 }
 
