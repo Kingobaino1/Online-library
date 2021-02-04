@@ -11,50 +11,66 @@ const row = document.querySelector('.row');
 let myLibrary = [];
 
 function Books(title, author, page, read) {
-  this.title = title;
-  this.author = author;
-  this.page = page;
-  this.read = read;
+  return { title, author, page, read, };
 }
 
-function saveLocal() {
-  localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
-}
-
-function addBook() {
-  add.className = 'd-block';
-}
-
-btn.addEventListener('click', addBook);
-
-function status(book) {
-  if (book.read) {
-    return 'Mark as unread';
+const Display = () => {
+   const hideForm = () => {
+    add.className = 'd-none';
   }
-  return 'Mark as read';
+
+  const addBook = () => {
+    add.className = 'd-block';
+  }
+
+  const resetForm = () => {
+    title.value = '';
+    author.value = '';
+    page.value = '';
+    read.checked = true;
+  }
+
+  const closeButton = () => {
+    hideForm();
+    resetForm();
+  }
+
+  const removeBook = (e) => {
+    const warning = window.confirm('Are you sure you want to remove this book?');
+    if (warning) {
+      const bookIndex = myLibrary.indexOf(e.target);
+      myLibrary.splice(bookIndex, 1);
+      e.target.offsetParent.parentElement.parentElement.remove();
+      store.saveLocal();
+    } else {
+      store.saveLocal();
+    }
+  }
+
+  const changeStatus = (e) => {
+    if (e.target.textContent === 'Mark as unread') {
+      e.target.className = 'btn-secondary';
+      e.target.textContent = 'Mark as read';
+    } else {
+      e.target.className = 'btn-success';
+      e.target.textContent = 'Mark as unread';
+    }
+  }
+
+  const status = (book) => {
+    if (book.read) {
+      return 'Mark as unread';
+    }
+    return 'Mark as read';
+  }
+
+  close.addEventListener('click', closeButton);
+  btn.addEventListener('click', addBook);
+
+  return { hideForm, addBook, resetForm, removeBook, changeStatus, status };
 }
 
-function changeStatus(e) {
-  if (e.target.textContent === 'Mark as unread') {
-    e.target.className = 'btn-secondary';
-    e.target.textContent = 'Mark as read';
-  } else {
-    e.target.className = 'btn-success';
-    e.target.textContent = 'Mark as unread';
-  }
-}
-
-function removeBook(e) {
-  const warning = window.confirm('Are you sure you want to remove this book?');
-  if (warning) {
-    const bookIndex = myLibrary.indexOf(e.target);
-    myLibrary.splice(bookIndex, 1);
-    e.target.offsetParent.parentElement.parentElement.remove();
-    saveLocal();
-  } else {
-    saveLocal();
-  }
-}
+const display = Display();
 
 function card(book) {
   const div = document.createElement('div');
@@ -85,14 +101,14 @@ function card(book) {
   const btn1 = document.createElement('button');
   btn1.setAttribute('type', 'button');
   btn1.className = 'btn btn-success';
-  btn1.textContent = status(book);
-  btn1.addEventListener('click', changeStatus);
+  btn1.textContent = display.status(book);
+  btn1.addEventListener('click', display.changeStatus);
 
   const btn2 = document.createElement('button');
   btn2.setAttribute('type', 'button');
   btn2.className = 'btn btn-danger';
   btn2.textContent = 'Remove Book';
-  btn2.addEventListener('click', removeBook);
+  btn2.addEventListener('click', display.removeBook);
 
   row.appendChild(div);
   div.appendChild(ul);
@@ -104,51 +120,43 @@ function card(book) {
   ul.appendChild(li4);
 }
 
-function loop() {
-  row.innerHTML = '';
-  myLibrary.forEach((book) => {
-    card(book);
-  });
-}
 
-function populateData() {
-  myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-  if (myLibrary === null) {
-    myLibrary = [];
+function Storage() { 
+  const loop = () => {
+    row.innerHTML = '';
+    myLibrary.forEach((book) => {
+      card(book);
+    });
   }
-  loop();
+  const saveLocal = () => {
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+  }
+
+  const populateData = () => {
+    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+    if (myLibrary === null) {
+      myLibrary = [];
+    }
+    loop();
+  }
+  return { loop, saveLocal, populateData };
 }
 
-function hideForm() {
-  add.className = 'd-none';
-}
-
-function resetForm() {
-  title.value = '';
-  author.value = '';
-  page.value = '';
-  read.checked = true;
-}
+const store = Storage();
 
 function addBookToLibrary() {
   if (title.value === '' || author.value === '' || page.value === '') {
     alert('Fields with * must not be blank');
   } else {
-    const book = new Books(title.value, author.value, page.value, read.checked);
+    const book = Books(title.value, author.value, page.value, read.checked);
     myLibrary.push(book);
-    saveLocal();
-    loop();
-    populateData();
-    resetForm();
-    hideForm();
+    store.saveLocal();
+    store.loop();
+    store.populateData();
+    display.resetForm();
+    display.hideForm();
   }
 }
 
-function closeButton() {
-  hideForm();
-  resetForm();
-}
-
-close.addEventListener('click', closeButton);
 submit.addEventListener('click', addBookToLibrary);
-populateData();
+store.populateData();
