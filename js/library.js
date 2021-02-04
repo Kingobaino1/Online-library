@@ -1,16 +1,16 @@
 const title = document.querySelector('#title');
 const author = document.querySelector('#author');
-const page = document.querySelector('#page')
-const read = document.querySelector('#read')
+const page = document.querySelector('#page');
+const read = document.querySelector('#read');
 const btn = document.querySelector('#btn');
 const add = document.querySelector('#add-book');
 const submit = document.querySelector('#submit');
 const close = document.querySelector('#close');
-const row = document.querySelector('.row')
+const row = document.querySelector('.row');
 
 let myLibrary = [];
 
-function Books(title, author, page, read){
+function Books(title, author, page, read) {
   this.title = title;
   this.author = author;
   this.page = page;
@@ -22,10 +22,9 @@ function saveLocal() {
 }
 
 function loop() {
-  row.innerHTML = ''
+  row.innerHTML = '';
   myLibrary.forEach((book) => {
-    card(book)
-    
+    card(book);
   })
 }
 
@@ -37,8 +36,6 @@ function populateData() {
   loop();
 }
 
-close.addEventListener('click', closeButton);
-
 function addBook() {
   add.className = 'd-block';
 }
@@ -46,7 +43,7 @@ function addBook() {
 btn.addEventListener('click', addBook);
 
 function status(book) {
-  if (book.read){
+  if (book.read) {
     return 'Mark as unread';
   }
     return 'Mark as read';
@@ -57,8 +54,8 @@ function changeStatus(e) {
     e.target.className = 'btn-secondary';
     e.target.textContent = 'Mark as read';
   } else {
-      e.target.className = 'btn-success';
-      e.target.textContent = 'Mark as unread';
+    e.target.className = 'btn-success';
+    e.target.textContent = 'Mark as unread';
   }
 }
 
@@ -72,7 +69,6 @@ function removeBook(e) {
   } else {
     saveLocal;
   }
-
 }
 
 function card(book) {
@@ -135,10 +131,10 @@ function resetForm() {
 }
 
 function addBookToLibrary() {
-  if (title.value == '' || author.value == '' || page.value == '') {
-    alert("Fields with * must not be blank");
+  if (title.value === '' || author.value === '' || page.value === '') {
+    alert('Fields with * must not be blank');
   } else {
-    let book = new Books(title.value, author.value, page.value, read.checked);
+    const book = new Books(title.value, author.value, page.value, read.checked);
     myLibrary.push(book);
     saveLocal();
     loop();
@@ -153,5 +149,6 @@ function closeButton() {
   resetForm();
 }
 
+close.addEventListener('click', closeButton);
 submit.addEventListener('click', addBookToLibrary);
 populateData();
