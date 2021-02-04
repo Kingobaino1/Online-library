@@ -21,21 +21,6 @@ function saveLocal() {
   localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
 }
 
-function loop() {
-  row.innerHTML = '';
-  myLibrary.forEach((book) => {
-    card(book);
-  })
-}
-
-function populateData() {
-  myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-  if (myLibrary === null) {
-    myLibrary = [];
-  }
-  loop();
-}
-
 function addBook() {
   add.className = 'd-block';
 }
@@ -117,6 +102,21 @@ function card(book) {
   li4.appendChild(btn1);
   li4.appendChild(btn2);
   ul.appendChild(li4);
+}
+
+function loop() {
+  row.innerHTML = '';
+  myLibrary.forEach((book) => {
+    card(book);
+  })
+}
+
+function populateData() {
+  myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+  if (myLibrary === null) {
+    myLibrary = [];
+  }
+  loop();
 }
 
 function hideForm() {
