@@ -19,6 +19,54 @@ function Books(title, author, page, read) {
   };
 }
 
+function card(book) {
+  const div = document.createElement('div');
+  div.className = 'card, bg-primary col-6 pb-3';
+
+  const ul = document.createElement('ul');
+  ul.classList.add('list-group');
+  ul.classList.add('list-group-flush');
+  ul.classList.add('mt-4');
+
+  const li1 = document.createElement('li');
+  li1.classList.add('list-group-item');
+  li1.textContent = book.title;
+
+  const li2 = document.createElement('li');
+  li2.classList.add('list-group-item');
+  li2.textContent = `by ${book.author}`;
+
+  const li3 = document.createElement('li');
+  li3.classList.add('list-group-item');
+  li3.textContent = `${book.page} pages`;
+
+  const li4 = document.createElement('li');
+  li4.classList.add('list-group-item');
+  li4.classList.add('d-flex');
+  li4.classList.add('justify-content-between');
+
+  const btn1 = document.createElement('button');
+  btn1.setAttribute('type', 'button');
+  btn1.className = 'btn btn-success';
+  btn1.textContent = display.status(book);
+  btn1.addEventListener('click', display.changeStatus);
+
+  const btn2 = document.createElement('button');
+  btn2.setAttribute('type', 'button');
+  btn2.className = 'btn btn-danger';
+  btn2.textContent = 'Remove Book';
+  btn2.addEventListener('click', display.removeBook);
+
+  row.appendChild(div);
+  div.appendChild(ul);
+  ul.appendChild(li1);
+  ul.appendChild(li2);
+  ul.appendChild(li3);
+  li4.appendChild(btn1);
+  li4.appendChild(btn2);
+  ul.appendChild(li4);
+}
+
 function Storage() {
   const loop = () => {
     row.innerHTML = '';
@@ -110,54 +158,6 @@ const Display = () => {
 };
 
 const display = Display();
-
-function card(book) {
-  const div = document.createElement('div');
-  div.className = 'card, bg-primary col-6 pb-3';
-
-  const ul = document.createElement('ul');
-  ul.classList.add('list-group');
-  ul.classList.add('list-group-flush');
-  ul.classList.add('mt-4');
-
-  const li1 = document.createElement('li');
-  li1.classList.add('list-group-item');
-  li1.textContent = book.title;
-
-  const li2 = document.createElement('li');
-  li2.classList.add('list-group-item');
-  li2.textContent = `by ${book.author}`;
-
-  const li3 = document.createElement('li');
-  li3.classList.add('list-group-item');
-  li3.textContent = `${book.page} pages`;
-
-  const li4 = document.createElement('li');
-  li4.classList.add('list-group-item');
-  li4.classList.add('d-flex');
-  li4.classList.add('justify-content-between');
-
-  const btn1 = document.createElement('button');
-  btn1.setAttribute('type', 'button');
-  btn1.className = 'btn btn-success';
-  btn1.textContent = display.status(book);
-  btn1.addEventListener('click', display.changeStatus);
-
-  const btn2 = document.createElement('button');
-  btn2.setAttribute('type', 'button');
-  btn2.className = 'btn btn-danger';
-  btn2.textContent = 'Remove Book';
-  btn2.addEventListener('click', display.removeBook);
-
-  row.appendChild(div);
-  div.appendChild(ul);
-  ul.appendChild(li1);
-  ul.appendChild(li2);
-  ul.appendChild(li3);
-  li4.appendChild(btn1);
-  li4.appendChild(btn2);
-  ul.appendChild(li4);
-}
 
 function addBookToLibrary() {
   if (title.value === '' || author.value === '' || page.value === '') {
