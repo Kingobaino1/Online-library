@@ -11,12 +11,13 @@ const row = document.querySelector('.row');
 let myLibrary = [];
 
 function Books(title, author, page, read) {
-
-  return { title, author, page, read };
-
+  return {
+    title,
+    author,
+    page,
+    read
+  };
 }
-
-const store = Storage();
 
 const Display = () => {
   const hideForm = () => {
@@ -62,20 +63,23 @@ const Display = () => {
   };
 
   const status = (book) => {
-
     if (book.read) {
       return 'Mark as unread';
     }
     return 'Mark as read';
-
   };
 
   close.addEventListener('click', closeButton);
   btn.addEventListener('click', addBook);
-
-  return { hideForm, addBook, resetForm, removeBook, changeStatus, status };
-
-}
+  return {
+    hideForm,
+    addBook,
+    resetForm,
+    removeBook,
+    changeStatus,
+    status
+  };
+};
 
 const display = Display();
 
@@ -146,10 +150,15 @@ function Storage() {
     loop();
   };
 
-  return { loop, saveLocal, populateData };
+  return {
+    loop,
+    saveLocal,
+    populateData
+  };
 
 }
 
+const store = Storage();
 
 function addBookToLibrary() {
   if (title.value === '' || author.value === '' || page.value === '') {
