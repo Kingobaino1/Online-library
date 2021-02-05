@@ -11,29 +11,33 @@ const row = document.querySelector('.row');
 let myLibrary = [];
 
 function Books(title, author, page, read) {
-  return { title, author, page, read, };
+
+  return { title, author, page, read };
+
 }
 
+const store = Storage();
+
 const Display = () => {
-   const hideForm = () => {
+  const hideForm = () => {
     add.className = 'd-none';
-  }
+  };
 
   const addBook = () => {
     add.className = 'd-block';
-  }
+  };
 
   const resetForm = () => {
     title.value = '';
     author.value = '';
     page.value = '';
     read.checked = true;
-  }
+  };
 
   const closeButton = () => {
     hideForm();
     resetForm();
-  }
+  };
 
   const removeBook = (e) => {
     const warning = window.confirm('Are you sure you want to remove this book?');
@@ -45,7 +49,7 @@ const Display = () => {
     } else {
       store.saveLocal();
     }
-  }
+  };
 
   const changeStatus = (e) => {
     if (e.target.textContent === 'Mark as unread') {
@@ -55,19 +59,22 @@ const Display = () => {
       e.target.className = 'btn-success';
       e.target.textContent = 'Mark as unread';
     }
-  }
+  };
 
   const status = (book) => {
+
     if (book.read) {
       return 'Mark as unread';
     }
     return 'Mark as read';
-  }
+
+  };
 
   close.addEventListener('click', closeButton);
   btn.addEventListener('click', addBook);
 
   return { hideForm, addBook, resetForm, removeBook, changeStatus, status };
+
 }
 
 const display = Display();
@@ -120,17 +127,16 @@ function card(book) {
   ul.appendChild(li4);
 }
 
-
-function Storage() { 
+function Storage() {
   const loop = () => {
     row.innerHTML = '';
     myLibrary.forEach((book) => {
       card(book);
     });
-  }
+  };
   const saveLocal = () => {
     localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
-  }
+  };
 
   const populateData = () => {
     myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
@@ -138,11 +144,12 @@ function Storage() {
       myLibrary = [];
     }
     loop();
-  }
+  };
+
   return { loop, saveLocal, populateData };
+
 }
 
-const store = Storage();
 
 function addBookToLibrary() {
   if (title.value === '' || author.value === '' || page.value === '') {
