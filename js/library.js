@@ -15,9 +15,37 @@ function Books(title, author, page, read) {
     title,
     author,
     page,
-    read
+    read,
   };
 }
+
+function Storage() {
+  const loop = () => {
+    row.innerHTML = '';
+    myLibrary.forEach((book) => {
+      card(book);
+    });
+  };
+  const saveLocal = () => {
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+  };
+
+  const populateData = () => {
+    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+    if (myLibrary === null) {
+      myLibrary = [];
+    }
+    loop();
+  };
+
+  return {
+    loop,
+    saveLocal,
+    populateData,
+  };
+}
+
+const store = Storage();
 
 const Display = () => {
   const hideForm = () => {
@@ -77,7 +105,7 @@ const Display = () => {
     resetForm,
     removeBook,
     changeStatus,
-    status
+    status,
   };
 };
 
@@ -130,35 +158,6 @@ function card(book) {
   li4.appendChild(btn2);
   ul.appendChild(li4);
 }
-
-function Storage() {
-  const loop = () => {
-    row.innerHTML = '';
-    myLibrary.forEach((book) => {
-      card(book);
-    });
-  };
-  const saveLocal = () => {
-    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
-  };
-
-  const populateData = () => {
-    myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-    if (myLibrary === null) {
-      myLibrary = [];
-    }
-    loop();
-  };
-
-  return {
-    loop,
-    saveLocal,
-    populateData
-  };
-
-}
-
-const store = Storage();
 
 function addBookToLibrary() {
   if (title.value === '' || author.value === '' || page.value === '') {
