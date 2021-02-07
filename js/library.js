@@ -55,7 +55,7 @@ function card(book) {
   btn2.setAttribute('type', 'button');
   btn2.className = 'btn btn-danger';
   btn2.textContent = 'Remove Book';
-  btn2.addEventListener('click', display.removeBook);
+  btn2.addEventListener('click', store.removeBook);
 
   row.appendChild(div);
   div.appendChild(ul);
@@ -86,10 +86,24 @@ function Storage() {
     loop();
   };
 
+  const removeBook = (e) => {
+    const warning = window.confirm('Are you sure you want to remove this book?');
+    if (warning) {
+      const bookIndex = myLibrary.indexOf(e.target);
+      myLibrary.splice(bookIndex, 1);
+      e.target.offsetParent.parentElement.parentElement.remove();
+      myLibrary;
+      saveLocal();
+    } else {
+      saveLocal();
+    }
+  };
+
   return {
     loop,
     saveLocal,
     populateData,
+    removeBook,
   };
 }
 
@@ -116,18 +130,6 @@ const Display = () => {
     resetForm();
   };
 
-  const removeBook = (e) => {
-    const warning = window.confirm('Are you sure you want to remove this book?');
-    if (warning) {
-      const bookIndex = myLibrary.indexOf(e.target);
-      myLibrary.splice(bookIndex, 1);
-      e.target.offsetParent.parentElement.parentElement.remove();
-      store.saveLocal();
-    } else {
-      store.saveLocal();
-    }
-  };
-
   const changeStatus = (e) => {
     if (e.target.textContent === 'Mark as unread') {
       e.target.className = 'btn-secondary';
@@ -151,7 +153,6 @@ const Display = () => {
     hideForm,
     addBook,
     resetForm,
-    removeBook,
     changeStatus,
     status,
   };
