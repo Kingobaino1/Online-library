@@ -10,16 +10,64 @@ const row = document.querySelector('.row');
 
 let myLibrary = [];
 
-function Books(title, author, page, read) {
-  return {
-    title,
-    author,
-    page,
-    read,
-  };
-}
+class Books {
+  constructor(title, author, page, read){
+    this.title = title;
+    this.author = author;
+    this.page = page;
+    this.read = read;
+  }
 
-function card(book) {
+  hideForm() {
+    add.className = 'd-none';
+  }
+
+  addBook() {
+   add.className = 'd-block';
+  }
+
+  resetForm () {
+    title.value = '';
+    author.value = '';
+    page.value = '';
+    read.checked = true;
+  }
+
+  status(book) {
+    if (book.read) {
+      return 'Mark as unread';
+    }
+    return 'Mark as read';
+  }
+
+  saveLocal() {
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+  }
+
+  changeStatus(e) {
+    if (e.target.textContent === 'Mark as unread') {
+      e.target.className = 'btn-secondary';
+      e.target.textContent = 'Mark as read';
+    } else {
+      e.target.className = 'btn-success';
+      e.target.textContent = 'Mark as unread';
+    }
+  }
+
+
+  removeBook(e) {
+    const warning = window.confirm('Are you sure you want to remove this book?');
+    if (warning) {
+      const bookIndex = myLibrary.indexOf(e.target);
+      myLibrary.splice(bookIndex, 1);
+      e.target.offsetParent.parentElement.parentElement.remove();
+      this.saveLocal();
+    } else {
+      this.saveLocal();
+      }
+  }
+
+  card(book) {
   const div = document.createElement('div');
   div.className = 'card, bg-primary col-6 pb-3';
 
@@ -48,14 +96,14 @@ function card(book) {
   const btn1 = document.createElement('button');
   btn1.setAttribute('type', 'button');
   btn1.className = 'btn btn-success';
-  btn1.textContent = display.status(book);
-  btn1.addEventListener('click', display.changeStatus);
+  btn1.textContent = this.status(book);
+  btn1.addEventListener('click', this.changeStatus);
 
   const btn2 = document.createElement('button');
   btn2.setAttribute('type', 'button');
   btn2.className = 'btn btn-danger';
   btn2.textContent = 'Remove Book';
-  btn2.addEventListener('click', store.removeBook);
+  btn2.addEventListener('click', this.removeBook);
 
   row.appendChild(div);
   div.appendChild(ul);
@@ -67,112 +115,43 @@ function card(book) {
   ul.appendChild(li4);
 }
 
-function Storage() {
-  const loop = () => {
+  loop() {
     row.innerHTML = '';
     myLibrary.forEach((book) => {
-      card(book);
+      this.card(book);
     });
-  };
-  const saveLocal = () => {
-    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
-  };
+  }
 
-  const populateData = () => {
+  populateData() {
     myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
     if (myLibrary === null) {
       myLibrary = [];
     }
-    loop();
-  };
-
-  const removeBook = (e) => {
-    const warning = window.confirm('Are you sure you want to remove this book?');
-    if (warning) {
-      const bookIndex = myLibrary.indexOf(e.target);
-      myLibrary.splice(bookIndex, 1);
-      e.target.offsetParent.parentElement.parentElement.remove();
-      myLibrary;
-      saveLocal();
-    } else {
-      saveLocal();
-    }
-  };
-
-  return {
-    loop,
-    saveLocal,
-    populateData,
-    removeBook,
-  };
+    this.loop();
+  }
 }
 
-const store = Storage();
 
-const Display = () => {
-  const hideForm = () => {
-    add.className = 'd-none';
-  };
-
-  const addBook = () => {
-    add.className = 'd-block';
-  };
-
-  const resetForm = () => {
-    title.value = '';
-    author.value = '';
-    page.value = '';
-    read.checked = true;
-  };
-
-  const closeButton = () => {
-    hideForm();
-    resetForm();
-  };
-
-  const changeStatus = (e) => {
-    if (e.target.textContent === 'Mark as unread') {
-      e.target.className = 'btn-secondary';
-      e.target.textContent = 'Mark as read';
-    } else {
-      e.target.className = 'btn-success';
-      e.target.textContent = 'Mark as unread';
-    }
-  };
-
-  const status = (book) => {
-    if (book.read) {
-      return 'Mark as unread';
-    }
-    return 'Mark as read';
-  };
-
-  close.addEventListener('click', closeButton);
-  btn.addEventListener('click', addBook);
-  return {
-    hideForm,
-    addBook,
-    resetForm,
-    changeStatus,
-    status,
-  };
-};
-
-const display = Display();
-
+let book = new Books(title.value, author.value, page.value, read.checked);
+close.addEventListener('click', closeButton);
+btn.addEventListener('click', book.addBook);
+  function closeButton() {
+    book.hideForm();
+    book.resetForm();
+  }
 function addBookToLibrary() {
   if (title.value === '' || author.value === '' || page.value === '') {
     alert('Fields with * must not be blank');
   } else {
-    const book = Books(title.value, author.value, page.value, read.checked);
+    book = new Books(title.value, author.value, page.value, read.checked);
     myLibrary.push(book);
-    store.saveLocal();
-    store.loop();
-    store.populateData();
-    display.resetForm();
-    display.hideForm();
+    book.saveLocal();
+    book.loop();
+    book.populateData();
+    book.resetForm();
+    book.hideForm();
   }
 }
 
 submit.addEventListener('click', addBookToLibrary);
-store.populateData();
+book.populateData();
